@@ -1,0 +1,5 @@
+cluster,peptide_id,sequence,length,n_residues_dssp,mean_plddt,min_plddt,max_plddt,helix_frac,sheet_frac,turn_frac,coil_frac,no_contacts_3p5A,no_contacts_per_residue,exploratory_amyloid_score,pdb_path
+Cluster-1,example_1,ACDEFGHIK,9,9,82.0,65.0,92.0,0.20,0.25,0.10,0.45,4,0.44,2,structures/representative_models/Cluster-1/example_1/example_1_rank_001.pdb
+C2-Sub-1,example_2,ACDEFGHIK,9,9,84.0,68.0,94.0,0.30,0.20,0.15,0.35,5,0.56,2,structures/representative_models/C2-Sub-1/example_2/example_2_rank_001.pdb
+C2-Sub-2,example_3,ACDEFGHIK,9,9,88.0,72.0,96.0,0.40,0.15,0.20,0.25,6,0.67,2,structures/representative_models/C2-Sub-2/example_3/example_3_rank_001.pdb
+C2-Sub-3,example_4,ACDEFGHIK,9,9,90.0,75.0,97.0,0.45,0.10,0.20,0.25,7,0.78,2,structures/representative_models/C2-Sub-3/example_4/example_4_rank_001.pdb

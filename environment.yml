@@ -1,0 +1,11 @@
+name: afpt-structure
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+  - numpy>=1.24
+  - pandas>=2.0
+  - matplotlib>=3.7
+  - seaborn>=0.12
+  - biopython>=1.81
+  - pip

@@ -1,0 +1,14 @@
+{
+  "fasta_dir": "data/fasta",
+  "structures_dir": "structures/representative_models",
+  "summary_csv": "results/tables/summary_all_peptides.csv",
+  "secondary_structure_csv": "results/tables/secondary_structure_summary.csv",
+  "figures_dir": "results/figures",
+  "dssp_executable": "mkdssp",
+  "clusters": [
+    "Cluster-1",
+    "C2-Sub-1",
+    "C2-Sub-2",
+    "C2-Sub-3"
+  ]
+}

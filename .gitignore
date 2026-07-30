@@ -1,0 +1,9 @@
+__pycache__/
+*.py[cod]
+.venv/
+.env
+.ipynb_checkpoints/
+.DS_Store
+*.log
+results/figures/*.tmp
+structures/raw_colabfold_outputs/
