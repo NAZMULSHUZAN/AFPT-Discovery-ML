@@ -19,10 +19,6 @@ Without AlphaFold or DSSP, the repository can:
 - validate the folder and input-file structure;
 - detect representative PDB files;
 - extract AlphaFold pLDDT values from PDB B-factors;
-- calculate sequence length;
-- estimate simple N–O contact counts;
-- calculate the exploratory amyloid-composition score used in the original script;
-- create a combined peptide summary table;
 - regenerate cluster-level figures from a previously prepared summary CSV.
 
 With DSSP installed, the same analysis additionally calculates:
