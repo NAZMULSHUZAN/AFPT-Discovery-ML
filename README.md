@@ -1,4 +1,4 @@
-# Data-Driven Discovery of Antifreeze Peptides Using Machine Learning
+# Machine-Learning-Guided Design of Antifreezing Peptides
 
 This repository contains a reproducible structural-analysis workflow for comparing
 machine-learning-defined antifreeze peptide groups:
@@ -229,13 +229,6 @@ coil_frac
 1. AlphaFold/ColabFold is not installed automatically by this repository.
 2. DSSP is not installed automatically because it is system software.
 3. pLDDT values are read from the AlphaFold PDB B-factor field.
-4. The N–O contact metric is a distance-based exploratory measure, not a
-   geometry-validated hydrogen-bond assignment.
-5. The included amyloid-composition score is an exploratory sequence score and
-   should not be presented as a validated amyloid-prediction model.
-6. Representative-structure selection criteria should be reported in the paper
-   and README, for example rank-001 model, highest mean pLDDT, cluster medoid, or
-   experimentally validated representative.
 
 ## Citation
 
