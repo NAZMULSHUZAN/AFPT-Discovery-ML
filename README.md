@@ -1,55 +1,45 @@
 # Machine-Learning-Guided Design of Antifreezing Peptides
 
 This repository contains the reproducible computational workflow associated
-with the study:
+with the study **“Machine-Learning-Guided Design of Antifreezing Peptides.”**
 
-**“Machine-Learning-Guided Design of Antifreezing Peptides.”**
+The workflow integrates:
 
-The repository includes:
-
-- the 719-sequence AFPT dataset with 137 calculated features;
-- experimentally guided feature-subset selection;
-- exact reproduction of the published 10-feature clustering solution;
-- Cluster-2 hierarchical subclustering;
-- replay of all 1,500 archived feature combinations;
-- automated verification tests;
-- paper-figure reproduction scripts;
-- post-prediction AlphaFold/ColabFold and DSSP analysis tools.
-
----
+- experimentally guided feature selection;
+- unsupervised clustering of 719 antifreezing peptides;
+- hierarchical identification of AFPT families;
+- exact reproduction of the published clustering results;
+- MEME-based cluster-specific motif discovery;
+- motif-informed de novo AFPT design;
+- AlphaFold/ColabFold post-prediction analysis;
+- optional DSSP secondary-structure analysis;
+- automated verification tests.
 
 ## Final AFPT groups
 
 The published analysis resolved four AFPT groups:
 
-- **Cluster-1**
-- **C2-Sub-1**
-- **C2-Sub-2**
-- **C2-Sub-3**
+- Cluster-1
+- C2-Sub-1
+- C2-Sub-2
+- C2-Sub-3
 
-Ward hierarchical clustering was applied only within Cluster-2 because
+Cluster-2 was further divided using Ward hierarchical clustering because
 experimentally favorable low ice-growth-rate observations were predominantly
 concentrated in this main cluster.
 
 ---
 
-# Quick reproduction guide
+## Quick installation
 
-The following steps reproduce the main computational results without requiring
-AlphaFold, ColabFold, or DSSP.
-
-## 1. Download the repository
+Clone the repository:
 
 ```bash
 git clone https://github.com/NAZMULSHUZAN/AFPT-Discovery-ML.git
 cd AFPT-Discovery-ML
 ```
 
-## 2. Create a Python environment
-
-Python 3.10 or newer is required.
-
-### Option A: Using `venv`
+Create and activate a Python environment:
 
 ```bash
 python3 -m venv .venv
@@ -57,14 +47,7 @@ source .venv/bin/activate
 python -m pip install --upgrade pip
 ```
 
-### Option B: Using Conda
-
-```bash
-conda create -n afpt-ml python=3.11 -y
-conda activate afpt-ml
-```
-
-## 3. Install the package
+Install the package:
 
 ```bash
 python -m pip install -e ".[dev]"
@@ -78,7 +61,7 @@ afpt-cluster --help
 
 ---
 
-# Reproduce the published clustering result
+## Reproduce the published clustering result
 
 Run:
 
@@ -86,7 +69,7 @@ Run:
 afpt-cluster published
 ```
 
-This workflow performs:
+The locked workflow performs:
 
 ```text
 719 AFPT sequences
@@ -110,14 +93,9 @@ Ward hierarchical clustering
 Three Cluster-2 subfamilies
 ```
 
-The expected output is:
+Expected results:
 
 ```text
-Input sequences: 719
-Available numeric features: 137
-Published selected features: 10
-Cosine silhouette score: 0.3160492893
-
 Cluster-1: 407
 Cluster-2: 312
 
@@ -125,12 +103,17 @@ C2-Sub-1: 134
 C2-Sub-2: 48
 C2-Sub-3: 130
 
-Favorable experimental peptides in Cluster-2: 89/90
+Cosine silhouette score: 0.316049
+Favorable experimental peptides in the enriched cluster: 89/90
+```
 
+A successful run ends with:
+
+```text
 PUBLISHED PIPELINE VERIFICATION PASSED
 ```
 
-The generated tables are saved in:
+Generated outputs are saved in:
 
 ```text
 outputs/published_modular/
@@ -138,9 +121,9 @@ outputs/published_modular/
 
 ---
 
-# Reproduce the experimentally guided feature selection
+## Reproduce the experimentally guided feature selection
 
-The published feature subset was selected using a combined objective:
+Candidate feature subsets were ranked using a combined objective:
 
 ```text
 Combined score
@@ -148,26 +131,21 @@ Combined score
 + 30% experimental ice-growth-rate enrichment score
 ```
 
-An experimentally characterized peptide was considered favorable for the
-feature-selection objective when:
+Peptides with an ice growth rate of:
 
 ```text
 Ice growth rate ≤ 16.520821
 ```
 
-To replay the exact 1,500 archived candidate feature combinations, run:
+were treated as favorable for the experimental-enrichment calculation.
+
+To replay all 1,500 archived feature combinations, run:
 
 ```bash
 python scripts/replay_archived_feature_search.py --n-jobs 8
 ```
 
-Use a smaller number of jobs on computers with fewer CPU cores:
-
-```bash
-python scripts/replay_archived_feature_search.py --n-jobs 2
-```
-
-The expected best result is:
+Expected best result:
 
 ```text
 Selected features: 10
@@ -179,50 +157,19 @@ Favorable experimental peptides: 89
 Experimental peptides in the enriched cluster: 90
 ```
 
-A successful run ends with:
+A successful replay ends with:
 
 ```text
 EXPERIMENTALLY GUIDED FEATURE SEARCH REPRODUCTION PASSED
 ```
 
-The replay verifies that recalculation of all 1,500 archived combinations
-produces:
-
-- the same 10 selected features;
-- the same `k = 2` solution;
-- the same silhouette score;
-- the same experimental enrichment;
-- the same combined score;
-- the same final cluster result.
-
-Replay outputs are written to:
-
-```text
-outputs/search_replay/
-```
-
-## Important distinction
-
-For exact reproduction of the published feature-selection result, use:
-
-```bash
-python scripts/replay_archived_feature_search.py --n-jobs 8
-```
-
-The general extension command:
-
-```bash
-afpt-cluster search
-```
-
-is intended for new exploratory searches. Because the legacy candidate ranking
-used variance after standardization, a new search may produce a different
-near-optimal feature ordering across software environments. It does not modify
-or invalidate the locked published result.
+This confirms that recalculation of all 1,500 archived candidate combinations
+reproduces the same selected 10 features, clustering solution, experimental
+enrichment, and combined score.
 
 ---
 
-# Reproduce the 137-feature baseline
+## Reproduce the 137-feature baseline
 
 Run:
 
@@ -230,16 +177,11 @@ Run:
 afpt-cluster baseline137
 ```
 
-This analysis uses all 137 numeric features and performs:
+This workflow uses all 137 numeric features and evaluates K-means solutions
+using cosine silhouette score.
 
-1. numeric-feature identification;
-2. median imputation;
-3. row-wise L2 normalization of the unscaled feature matrix;
-4. K-means evaluation for `k = 2–6`;
-5. selection using cosine silhouette score.
-
-This baseline is included for comparison. It is not expected to generate the
-same families as the selected 10-feature published solution.
+The 137-feature baseline is included for comparison and is not expected to
+produce the same families as the selected 10-feature published solution.
 
 Outputs are saved in:
 
@@ -249,12 +191,12 @@ outputs/baseline137/
 
 ---
 
-# Run a new extension search
+## Run a new extension search
 
-A new exploratory search can be run without changing the locked published
-configuration.
+A new exploratory feature search can be run without modifying the locked
+published configuration.
 
-For a quick smoke test:
+Quick smoke test:
 
 ```bash
 afpt-cluster search \
@@ -263,7 +205,7 @@ afpt-cluster search \
   --n-jobs 1
 ```
 
-For a larger extension search:
+Larger extension search:
 
 ```bash
 afpt-cluster search \
@@ -272,20 +214,71 @@ afpt-cluster search \
   --n-jobs 8
 ```
 
-Results are written to:
+Extension-search outputs are saved separately in:
 
 ```text
 outputs/search_runs/<run-name>/
 ```
 
-Extension searches never overwrite the published configuration or archived
-published results.
+For exact reproduction of the published feature-selection result, use the
+archived-search replay script rather than the general extension-search command.
 
 ---
 
-# Reproduce the paper figures
+## MEME motif analysis and de novo AFPT design
 
-## Main clustering figures
+Cluster-specific sequence motif discovery was performed using the MEME Suite.
+
+Separate FASTA files were prepared for:
+
+```text
+Cluster-1_sequences.fasta
+C2-Sub-1_sequences.fasta
+C2-Sub-2_sequences.fasta
+C2-Sub-3_sequences.fasta
+```
+
+These FASTA files are provided in:
+
+```text
+data/fasta/
+```
+
+Each cluster or subcluster FASTA file was analyzed separately using MEME to
+identify conserved motifs and residue-position patterns.
+
+The design workflow was:
+
+```text
+Final AFPT cluster assignments
+        ↓
+Cluster-specific FASTA files
+        ↓
+MEME motif discovery
+        ↓
+Identification of conserved sequence patterns
+        ↓
+Integration with experimental enrichment,
+physicochemical properties, and structural interpretation
+        ↓
+De novo AFPT candidate design
+```
+
+MEME was used as a motif-discovery tool. The de novo peptides were not generated
+automatically by MEME. Instead, conserved motifs and residue patterns identified
+from favorable AFPT families were used to guide rational peptide design.
+
+The cluster-specific FASTA files allow users to repeat the MEME analysis.
+Exact motif reproduction additionally requires use of the same MEME version,
+motif-number setting, motif-width range, background model, and sequence
+distribution settings used in the original analysis.
+
+When available, the original MEME settings and output files are archived in
+the associated Zenodo supplementary-data record.
+
+---
+
+## Reproduce the paper figures
 
 Run:
 
@@ -293,34 +286,19 @@ Run:
 bash run_figure_reproduction.sh
 ```
 
-This script uses the prepared cluster-assignment and plotting tables to
-regenerate the main clustering visualization.
-
 Generated figures are written to:
 
 ```text
 results/figures/
 ```
 
-The numerical cluster assignments used for verification are also available in:
+The reproduced numerical cluster assignments are available in:
 
 ```text
 outputs/verification/published_cluster_assignments.csv
 ```
 
-The exact published cluster counts are:
-
-```text
-Cluster-1: 407
-C2-Sub-1: 134
-C2-Sub-2: 48
-C2-Sub-3: 130
-```
-
-## Direct Python verification
-
-The published result can also be reproduced without using the command-line
-entry point:
+The published pipeline can also be verified directly using:
 
 ```bash
 python scripts/verify_published_pipeline.py
@@ -334,7 +312,7 @@ PUBLISHED PIPELINE VERIFICATION PASSED
 
 ---
 
-# Automated tests
+## Automated verification
 
 Run:
 
@@ -344,15 +322,14 @@ pytest
 
 The tests verify:
 
-- 719 input sequences;
-- 719 unique sequences;
-- 137 numeric features;
-- absence of missing required data;
+- 719 input and unique AFPT sequences;
+- 137 available numeric features;
 - presence of all 10 published features;
 - exact Cluster-1 and Cluster-2 sizes;
 - exact Cluster-2 subfamily sizes;
-- the published cosine silhouette score;
-- the experimental enrichment result of 89/90.
+- published cosine silhouette score;
+- experimental enrichment of 89 favorable peptides among 90 experimentally
+  characterized peptides in the enriched cluster.
 
 Expected result:
 
@@ -360,7 +337,7 @@ Expected result:
 3 passed
 ```
 
-Code-style checking can be performed with:
+Code quality can be checked using:
 
 ```bash
 ruff check src tests scripts
@@ -368,55 +345,31 @@ ruff check src tests scripts
 
 ---
 
-# Structural-analysis workflow
+## AlphaFold/ColabFold structural analysis
 
-AlphaFold or ColabFold prediction is performed externally. The repository does
-not run AlphaFold automatically.
+AlphaFold or ColabFold structure prediction is performed externally and is not
+run automatically by this repository.
 
-After predicted PDB structures are available, this repository can:
+After predicted PDB files are available, the repository can:
 
-- validate FASTA and structure-folder organization;
-- detect representative PDB files;
+- validate the FASTA and structure-folder layout;
+- detect representative PDB models;
 - extract AlphaFold pLDDT values from PDB B-factors;
-- calculate cluster-level pLDDT summaries;
+- calculate cluster-level confidence summaries;
 - calculate DSSP secondary-structure composition;
 - regenerate cluster-level structural figures.
 
-## Required FASTA files
-
-Place the following files in:
+Required FASTA files:
 
 ```text
 data/fasta/
+├── Cluster-1_sequences.fasta
+├── C2-Sub-1_sequences.fasta
+├── C2-Sub-2_sequences.fasta
+└── C2-Sub-3_sequences.fasta
 ```
 
-Required filenames:
-
-```text
-Cluster-1_sequences.fasta
-C2-Sub-1_sequences.fasta
-C2-Sub-2_sequences.fasta
-C2-Sub-3_sequences.fasta
-```
-
-Example FASTA record:
-
-```fasta
->peptide_001
-ACDEFGHIKLMNP
-```
-
-The FASTA record ID should match the corresponding structure-directory name.
-
-## Required structure layout
-
-Place predicted structures in:
-
-```text
-structures/representative_models/
-```
-
-Example:
+Example structure layout:
 
 ```text
 structures/representative_models/
@@ -428,250 +381,73 @@ structures/representative_models/
 └── C2-Sub-3/
 ```
 
-The analysis first searches for:
-
-```text
-*rank_001*.pdb
-```
-
-If that file is unavailable, it uses another `.pdb` file in the peptide
-directory as a fallback.
-
-## Check the structural-analysis setup
-
-Run:
+Check the local setup:
 
 ```bash
 python scripts/check_setup.py
 ```
 
-This reports:
-
-- missing FASTA files;
-- missing structure directories;
-- missing Python dependencies;
-- DSSP availability;
-- configuration problems.
-
-## Run AlphaFold-output analysis
+Run the structural analysis:
 
 ```bash
 bash run_analysis.sh
 ```
 
-Equivalent Python command:
+Equivalent command:
 
 ```bash
 python scripts/analyze_af2_results.py --config config.json
 ```
 
-The main output is:
+Main output:
 
 ```text
 results/tables/summary_all_peptides.csv
 ```
 
-This table can contain:
-
-- peptide identifier;
-- AFPT cluster or family;
-- representative PDB path;
-- mean pLDDT;
-- minimum pLDDT;
-- maximum pLDDT;
-- helix fraction;
-- beta-sheet fraction;
-- turn fraction;
-- coil fraction.
-
-When DSSP is unavailable, pLDDT extraction can still run, but
-secondary-structure columns are recorded as missing values.
-
 ---
 
-# Install DSSP for secondary-structure analysis
+## Optional DSSP analysis
 
-DSSP is optional and is required only for secondary-structure assignment.
+DSSP is required only for secondary-structure assignment.
 
-On Ubuntu or Debian:
+Ubuntu or Debian installation:
 
 ```bash
 sudo apt update
 sudo apt install dssp
 ```
 
-Check the installation:
+Check the executable:
 
 ```bash
 mkdssp --version
 ```
 
-Some systems provide the command as:
-
-```bash
-dssp
-```
-
-The executable can be changed in `config.json`:
-
-```json
-{
-  "dssp_executable": "mkdssp"
-}
-```
-
-DSSP assignments are summarized as:
-
-- helix;
-- beta sheet;
-- turn;
-- coil or random coil.
-
----
-
-# Generate the secondary-structure figure
-
-After the structure-analysis table has been generated, run:
+Generate the cluster-level secondary-structure figure:
 
 ```bash
 bash run_secondary_structure_plot.sh
 ```
 
-Equivalent Python command:
+Equivalent command:
 
 ```bash
 python scripts/secondary_structure_clusters.py --config config.json
 ```
 
-Figures are written to:
+The DSSP results summarize:
 
-```text
-results/figures/
-```
-
----
-
-# Configuration
-
-The structural-analysis paths are defined in `config.json`.
-
-Example:
-
-```json
-{
-  "fasta_dir": "data/fasta",
-  "structures_dir": "structures/representative_models",
-  "summary_csv": "results/tables/summary_all_peptides.csv",
-  "secondary_structure_csv": "results/tables/secondary_structure_summary.csv",
-  "figures_dir": "results/figures",
-  "dssp_executable": "mkdssp"
-}
-```
-
-All paths are interpreted relative to the repository root.
-
-The locked clustering configuration is stored separately in:
-
-```text
-configs/published_search.json
-```
-
-The published 10-feature list is stored in:
-
-```text
-configs/published_features.txt
-```
-
-The archived 1,500-combination search is stored in:
-
-```text
-data/archive/feature_search_1500_archived.csv
-```
+- helix fraction;
+- beta-sheet fraction;
+- turn fraction;
+- coil or random-coil fraction.
 
 ---
 
-# Important data files
+## Recommended reproduction order
 
-```text
-data/processed/AFPT_137_features.csv
-```
-
-Contains:
-
-- 719 AFPT sequences;
-- sequence metadata;
-- 137 numeric features.
-
-```text
-data/raw/experimental/Reg_sequences.xlsx
-```
-
-Contains the experimental ice-growth-rate measurements used for experimental
-guidance and enrichment calculations.
-
-```text
-outputs/verification/published_cluster_assignments.csv
-```
-
-Contains the reproduced final cluster and family assignments.
-
-```text
-docs/archived_search_replay_summary.json
-```
-
-Contains the compact verification summary for the exact 1,500-combination
-experimental replay.
-
----
-
-# Data and supplementary materials
-
-The complete supplementary dataset and supporting materials are archived on
-Zenodo:
-
-**Zenodo DOI:** `https://doi.org/ZENODO_DOI_HERE`
-
-The minimal files required for verification are included in this repository.
-The Zenodo record serves as the archived supplementary-data record associated
-with the study.
-
----
-
-# Current reproducibility coverage
-
-## Included in the current release
-
-- published 10-feature clustering;
-- 137-feature baseline clustering;
-- exact experimental feature-search replay;
-- main cluster and family assignments;
-- figure-regeneration workflow;
-- AlphaFold pLDDT post-processing;
-- optional DSSP secondary-structure analysis;
-- automated tests.
-
-## Not yet included
-
-The active-family classifier defined using:
-
-```text
-Positive:
-C2-Sub-2 + C2-Sub-3
-
-Negative:
-Cluster-1 + C2-Sub-1
-```
-
-is not yet included in the current modular release. It should not be claimed as
-reproducible from this repository until its original preprocessing,
-cross-validation, model settings, and evaluation outputs have been separately
-verified and added.
-
----
-
-# Recommended reproduction order
-
-For the fastest complete verification, run:
+To reproduce the main paper analysis, run:
 
 ```bash
 python -m pip install -e ".[dev]"
@@ -685,7 +461,17 @@ python scripts/replay_archived_feature_search.py --n-jobs 8
 bash run_figure_reproduction.sh
 ```
 
-For structure-based figures, additionally run:
+Expected successful messages:
+
+```text
+3 passed
+
+PUBLISHED PIPELINE VERIFICATION PASSED
+
+EXPERIMENTALLY GUIDED FEATURE SEARCH REPRODUCTION PASSED
+```
+
+For structural analysis, additionally run:
 
 ```bash
 python scripts/check_setup.py
@@ -697,24 +483,52 @@ bash run_secondary_structure_plot.sh
 
 ---
 
-# Expected verification messages
+## Data and supplementary materials
 
-A complete successful analytical reproduction should include:
+The supplementary dataset, calculated features, experimental ice-growth-rate
+data, final cluster and family labels, MEME input files, model settings, and
+supporting materials are archived on Zenodo:
 
-```text
-3 passed
+**Zenodo DOI:** `https://doi.org/ZENODO_DOI_HERE`
 
-PUBLISHED PIPELINE VERIFICATION PASSED
+The reproducible analysis code is maintained in this GitHub repository:
 
-EXPERIMENTALLY GUIDED FEATURE SEARCH REPRODUCTION PASSED
-```
+**GitHub:**  
+`https://github.com/NAZMULSHUZAN/AFPT-Discovery-ML`
 
 ---
 
-# Citation
+## Current reproducibility coverage
 
-When using this repository, please cite the associated manuscript and the
-Zenodo supplementary-data record.
+Included in the current repository:
 
-The software version used for a study should also be identified by its GitHub
-release or commit hash.
+- exact published 10-feature clustering;
+- all-137-feature baseline analysis;
+- exact 1,500-combination experimental feature-search replay;
+- final cluster and family assignments;
+- paper-figure regeneration;
+- cluster-specific FASTA files for MEME motif analysis;
+- documentation of the MEME-informed de novo design workflow;
+- AlphaFold pLDDT post-processing;
+- optional DSSP secondary-structure analysis;
+- automated verification tests.
+
+The active-family classifier using:
+
+```text
+Positive: C2-Sub-2 + C2-Sub-3
+Negative: Cluster-1 + C2-Sub-1
+```
+
+will be added after its original preprocessing, cross-validation settings,
+model parameters, and evaluation outputs are independently verified.
+
+---
+
+## Citation
+
+When using this repository, please cite:
+
+1. the associated manuscript;
+2. the Zenodo supplementary-data record;
+3. the specific GitHub release or commit used for analysis.
