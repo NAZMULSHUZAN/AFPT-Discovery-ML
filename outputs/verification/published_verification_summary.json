@@ -1,0 +1,17 @@
+{
+  "main_silhouette": 0.3160492893162923,
+  "main_counts": {
+    "Cluster-1": 407,
+    "Cluster-2": 312
+  },
+  "family_counts": {
+    "C2-Sub-1": 134,
+    "C2-Sub-2": 48,
+    "C2-Sub-3": 130,
+    "Cluster-1": 407
+  },
+  "experimentally_enriched_raw_cluster": 1,
+  "favorable_experimental_peptides": 89,
+  "experimental_peptides_in_enriched_cluster": 90,
+  "verification": "PASSED"
+}
