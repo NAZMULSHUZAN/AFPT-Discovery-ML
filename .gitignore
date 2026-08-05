@@ -7,3 +7,8 @@ __pycache__/
 *.log
 results/figures/*.tmp
 structures/raw_colabfold_outputs/
+outputs/published_modular/
+outputs/baseline137/
+outputs/search_runs/
+outputs/search_replay/
+*.egg-info/

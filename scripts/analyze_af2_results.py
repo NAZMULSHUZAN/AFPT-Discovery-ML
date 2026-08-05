@@ -9,8 +9,8 @@ from __future__ import annotations
 import argparse
 import json
 import shutil
+from collections.abc import Iterable
 from pathlib import Path
-from typing import Dict, Iterable, Optional, Tuple
 
 import numpy as np
 import pandas as pd
@@ -37,8 +37,8 @@ def load_config(path: Path) -> dict:
     return config
 
 
-def load_sequences(fasta_dir: Path, clusters: Iterable[str]) -> Dict[Tuple[str, str], str]:
-    lookup: Dict[Tuple[str, str], str] = {}
+def load_sequences(fasta_dir: Path, clusters: Iterable[str]) -> dict[tuple[str, str], str]:
+    lookup: dict[tuple[str, str], str] = {}
     for cluster in clusters:
         fasta_path = fasta_dir / f"{cluster}_sequences.fasta"
         if not fasta_path.exists():
@@ -51,7 +51,7 @@ def load_sequences(fasta_dir: Path, clusters: Iterable[str]) -> Dict[Tuple[str, 
     return lookup
 
 
-def find_best_pdb(job_dir: Path) -> Optional[Path]:
+def find_best_pdb(job_dir: Path) -> Path | None:
     ranked = sorted(job_dir.glob("*rank_001*.pdb"))
     if ranked:
         return ranked[0]
@@ -59,7 +59,7 @@ def find_best_pdb(job_dir: Path) -> Optional[Path]:
     return pdbs[0] if pdbs else None
 
 
-def plddt_stats(pdb_path: Path) -> Tuple[float, float, float]:
+def plddt_stats(pdb_path: Path) -> tuple[float, float, float]:
     parser = PDBParser(QUIET=True)
     structure = parser.get_structure("af2", str(pdb_path))
     values = [
@@ -77,7 +77,7 @@ def plddt_stats(pdb_path: Path) -> Tuple[float, float, float]:
 
 def secondary_structure(
     pdb_path: Path, dssp_executable: str
-) -> Tuple[float, float, float, float, int]:
+) -> tuple[float, float, float, float, int]:
     if DSSP is None or shutil.which(dssp_executable) is None:
         return np.nan, np.nan, np.nan, np.nan, 0
 
@@ -87,11 +87,11 @@ def secondary_structure(
 
     try:
         dssp = DSSP(model, str(pdb_path), dssp=dssp_executable)
-    except Exception as exc:
+    except Exception as exc:  # noqa: BLE001
         print(f"[WARN] DSSP failed for {pdb_path}: {exc}")
         return np.nan, np.nan, np.nan, np.nan, 0
 
-    codes = [dssp[key][2] for key in dssp.keys()]
+    codes = [dssp[key][2] for key in dssp]
     n = len(codes)
     if n == 0:
         return np.nan, np.nan, np.nan, np.nan, 0

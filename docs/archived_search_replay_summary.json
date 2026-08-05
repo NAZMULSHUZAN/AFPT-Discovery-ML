@@ -1,0 +1,37 @@
+{
+  "archived_combinations": 1500,
+  "recalculated_combinations": 1500,
+  "matched_combinations": 1500,
+  "same_best_features": true,
+  "reproduced_published_features": true,
+  "top_metrics_match": true,
+  "top_counts_match": true,
+  "maximum_metric_differences": {
+    "silhouette": 8.326672684688674e-17,
+    "jacs_score": 2.220446049250313e-16,
+    "combined": 0.0
+  },
+  "full_integer_match": true,
+  "exact_replay": true,
+  "recalculated_top": {
+    "features": [
+      "InterPLM_esm2-650m_L24_mean_198",
+      "ESM2_295",
+      "ESM2_535",
+      "ESM2_403",
+      "ESM2_402",
+      "ESM2_102",
+      "ESM2_172",
+      "ESM2_43",
+      "ESM2_848",
+      "AAC_G"
+    ],
+    "k": 2,
+    "silhouette": 0.3160492893162923,
+    "jacs_score": 1.5,
+    "combined": 0.6712345025214046,
+    "best_cluster": 1,
+    "best_n_good": 89,
+    "best_n_jacs": 90
+  }
+}
