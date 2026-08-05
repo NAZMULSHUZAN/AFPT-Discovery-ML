@@ -11,3 +11,4 @@ outputs/published_modular/
 outputs/baseline137/
 outputs/search_runs/
 outputs/search_replay/
+*.egg-info/

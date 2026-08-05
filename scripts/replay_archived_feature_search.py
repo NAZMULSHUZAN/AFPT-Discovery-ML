@@ -304,9 +304,9 @@ def main() -> None:
     )
 
     summary = {
-        "archived_combinations": int(len(archived)),
-        "recalculated_combinations": int(len(recalculated)),
-        "matched_combinations": int(len(comparison)),
+        "archived_combinations": len(archived),
+        "recalculated_combinations": len(recalculated),
+        "matched_combinations": len(comparison),
         "same_best_features": same_best_features,
         "reproduced_published_features": reproduced_published_features,
         "top_metrics_match": top_metrics_match,
