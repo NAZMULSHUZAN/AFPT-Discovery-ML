@@ -1,5 +1,7 @@
 # Machine-Learning-Guided Design of Antifreezing Peptides
 
+**Accepted for publication in the Journal of Chemical Information and Modeling (JCIM).**
+
 This repository contains the reproducible computational workflow associated
 with the study **“Machine-Learning-Guided Design of Antifreezing Peptides.”**
 
