@@ -2,6 +2,21 @@
 
 **Accepted for publication in the Journal of Chemical Information and Modeling (JCIM).**
 
+* Machine Learning 
+* Bioinformatics 
+* Protein Design 
+* Experimental Validation 
+* Reproducible Research
+
+My Contributions
+
+* ML pipeline development
+* Feature engineering/selection
+* Clustering and validation
+* Biological interpretation
+* Reproducibility pipeline
+* Peptide-design analysis
+
 This repository contains the reproducible computational workflow associated
 with the study **“Machine-Learning-Guided Design of Antifreezing Peptides.”**
 
