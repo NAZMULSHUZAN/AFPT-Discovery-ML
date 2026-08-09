@@ -506,7 +506,7 @@ The supplementary dataset, calculated features, experimental ice-growth-rate
 data, final cluster and family labels, MEME input files, model settings, and
 supporting materials are archived on Zenodo:
 
-**Zenodo DOI:** `https://doi.org/ZENODO_DOI_HERE`
+**Zenodo DOI:** `https://doi.org/10.5281/zenodo.21269941`
 
 The reproducible analysis code is maintained in this GitHub repository:
 
