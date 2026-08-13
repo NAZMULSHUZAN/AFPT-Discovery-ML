@@ -1,4 +1,6 @@
-# Machine-Learning-Guided Design of Antifreezing Peptides
+# Machine-Learning-Guided Design of Antifreezing Peptides 
+
+**Selected for journal cover**
 
 **Accepted for publication in the Journal of Chemical Information and Modeling (JCIM) Link:(https://doi.org/10.1021/acs.jcim.6c01712).**
 
