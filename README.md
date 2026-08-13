@@ -1,6 +1,6 @@
 # Machine-Learning-Guided Design of Antifreezing Peptides
 
-**Accepted for publication in the Journal of Chemical Information and Modeling (JCIM).**
+**Accepted for publication in the Journal of Chemical Information and Modeling (JCIM) Link:(https://doi.org/10.1021/acs.jcim.6c01712).**
 
 * Machine Learning 
 * Bioinformatics 
@@ -544,8 +544,10 @@ model parameters, and evaluation outputs are independently verified.
 
 ## Citation
 
-When using this repository, please cite:
+## Publication
 
-1. the associated manuscript;
-2. the Zenodo supplementary-data record;
-3. the specific GitHub release or commit used for analysis.
+**Machine-Learning-Guided Design of Antifreezing Peptides**  
+Nazmul Shuzan, Jialun Wei, and Jie Zheng  
+*Journal of Chemical Information and Modeling* (2026)
+
+[Read the paper](https://doi.org/10.1021/acs.jcim.6c01712)
