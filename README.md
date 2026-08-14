@@ -2,7 +2,7 @@ Machine-Learning-Guided Design of Antifreezing Peptides
 
 Selected for Journal Cover
 Published in the Journal of Chemical Information and Modeling (JCIM), 2026.
-Link:(https://doi.org/10.1021/acs.jcim.6c01712).**
+Link:(https://doi.org/10.1021/acs.jcim.6c01712)
 
 * Machine Learning 
 * Bioinformatics 
